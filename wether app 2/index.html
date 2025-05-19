@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather App</title>
+    <link rel="stylesheet" href="style.css">
+    
+</head>
+<body>
+    <div class="container">
+        <h2>Weather App</h2>
+        <input type="text" id="location" placeholder="Enter location">
+        <button onclick="getWeather()">Get Weather</button>
+        <div id="weather"></div>
+    </div>
+
+    <script>
+        function getWeather() {
+            let location = document.getElementById("location").value;
+            let apiKey = "4c03d38492f54aa49b2175721251803";
+            let url = `http://api.weatherapi.com/v1/current.json?key=${apiKey}&q=${location}&aqi=yes`;
+
+            fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById("weather").innerHTML = 
+                        `<h3>${data.location.name}, ${data.location.country}</h3>
+                         <p>Temperature: ${data.current.temp_c}°C</p>
+                         <p>Condition: ${data.current.condition.text}</p>
+                         <img src="${data.current.condition.icon}" alt="Weather Icon">`;
+                })
+                .catch(error => {
+                    document.getElementById("weather").innerHTML = "<p>Location not found</p>";
+                });
+        }
+    </script>
+</body>
+</html>
